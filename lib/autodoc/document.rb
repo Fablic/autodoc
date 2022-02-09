@@ -202,7 +202,7 @@ module Autodoc
 
     def parameters_section
       if has_validators? && parameters.present?
-        "\n### Parameters\n#{parameters}\n"
+        "\n### Parameters\n| Name | Type | Necessity | Description |\n|---|---|---|---|\n#{parameters}\n"
       end
     end
 
@@ -243,16 +243,18 @@ module Autodoc
 
       def body
         if validator.key.nil?
-          "* #{validator.type}"
+          "| | #{validator.type} |"
         else
-          "* `#{validator.key}` #{validator.type}"
+          "| `#{validator.key}` | #{validator.type} |"
         end
       end
 
       def payload
         string = ""
         string << " (#{assets.join(', ')})" if assets.any?
-        string << " - #{validator.options[:description]}" if validator.options[:description]
+        string << ' |'
+        string << " #{validator.options[:description]}" if validator.options[:description]
+        string << ' |'
         string
       end
 
